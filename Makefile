@@ -1,5 +1,6 @@
-install:
+install-deps: # Install dependencies
 	npm ci
+	npm link
 gendiff:
 	node bin/gendiff.js
 publish:
