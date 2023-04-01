@@ -8,7 +8,7 @@
   "description": "[![Actions Status](https://github.com/denyadeho/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/denyadeho/frontend-project-46/actions)",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "denis",
   "license": "ISC",
