@@ -47,7 +47,7 @@ const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
 
         }
     }
-    const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 3 - 1)}}`;
+    const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 3 - 2)}}`;
     return text;
 }
 
