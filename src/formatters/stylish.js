@@ -1,8 +1,8 @@
 import _ from "lodash";
 
-const funcStylish = (file1, file2, deepLVL = 0, isSetSign = true) => {
-    const getTextForPush = (key, value, deepLVL, sign, isSetSign = true) => {
-        return `${' '.repeat(deepLVL * 4)}${isSetSign ? sign : ''} ${key}: ${value}`
+const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
+    const getTextForPush = (key, value, deepLVL = 1, sign, isSetSign = true) => {
+        return `${' '.repeat(deepLVL * 4)}${isSetSign ? sign : ' '} ${key}: ${value}`
     }
     const result = [];
 
@@ -12,7 +12,7 @@ const funcStylish = (file1, file2, deepLVL = 0, isSetSign = true) => {
         if (_.isObject(file1[item]) || _.isObject(file2[item])) {
             if (_.isObject(file1[item]) && _.isObject(file2[item])) {
                 const deepResult = funcStylish(file1[item], file2[item], deepLVL + 1);
-                result.push(getTextForPush(item, deepResult, deepLVL, ''));
+                result.push(getTextForPush(item, deepResult, deepLVL, ' '));
             }
             if (_.isObject(file1[item]) && !_.isObject(file2[item])) {
                 const deepResult = funcStylish(file1[item], {}, deepLVL + 1, false);
@@ -47,7 +47,7 @@ const funcStylish = (file1, file2, deepLVL = 0, isSetSign = true) => {
 
         }
     }
-    const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 4)}}`;
+    const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 4 - 2)}}`;
     return text;
 }
 
