@@ -2,7 +2,7 @@ import _ from "lodash";
 
 const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
     const getTextForPush = (key, value, deepLVL = 1, sign, isSetSign = true) => {
-        return `${' '.repeat(deepLVL * 4)}${isSetSign ? sign : ' '} ${key}: ${value}`
+        return `${' '.repeat(deepLVL * 4 - 2)}${isSetSign ? sign : ' '} ${key}: ${value}`
     }
     const result = [];
 
