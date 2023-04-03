@@ -16,10 +16,11 @@ const funcPlain = (file1, file2, parent = '') => {
 
   const result = [];
   const allKeys = _.uniq([...Object.keys(file1), ...Object.keys(file2)].sort());
+  /* eslint-disable-next-line */
   for (const item of allKeys) {
     if (_.isObject(file1[item]) && _.isObject(file2[item])) {
-      const abc = funcPlain(file1[item], file2[item], path(parent, item));
-      result.push(abc);
+      const recursionAdd = funcPlain(file1[item], file2[item], path(parent, item));
+      result.push(recursionAdd);
     } else {
       if (file1[item] !== undefined && file2[item] === undefined) {
         result.push(`Property '${path(parent, item)}' was removed`);
