@@ -3,7 +3,7 @@
 import _ from 'lodash';
 
 const funcJSON = (file1, file2) => {
-  const allKeys = _.uniq([...Object.keys(file1), ...Object.keys(file2)].sort());
+  const allKeys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
 
   const objForJSON = allKeys.map((key) => {
     if (file1[key] !== undefined && file2[key] === undefined) {

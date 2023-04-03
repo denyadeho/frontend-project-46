@@ -1,12 +1,10 @@
-/** @format */
-
 import _ from 'lodash';
 
 const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
   const getTextForPush = (key, value, sign, deepLVL1 = 1, isSetSign1 = true) => `${' '.repeat(deepLVL1 * 4 - 2)}${isSetSign1 ? sign : ' '} ${key}: ${value}`;
   const result = [];
 
-  const allKeys = _.uniq([...Object.keys(file1), ...Object.keys(file2)].sort());
+  const allKeys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
   /* eslint-disable-next-line */
   for (const item of allKeys) {
     if (_.isObject(file1[item]) || _.isObject(file2[item])) {

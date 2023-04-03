@@ -3,18 +3,14 @@ import parserJSON from './parserJSON.js';
 import parserYaml from './parserYaml.js';
 
 const parser = (filepath) => {
-  let file;
   switch (path.parse(filepath).ext) {
     case '.json':
-      file = parserJSON(filepath);
-      break;
+      return parserJSON(filepath);
     case '.yml':
     case '.yaml':
-      file = parserYaml(filepath);
-      break;
+      return parserYaml(filepath);
     default:
       throw new Error(`Incorrect extension ${path.parse(filepath).ext}`);
   }
-  return file;
 };
 export default parser;

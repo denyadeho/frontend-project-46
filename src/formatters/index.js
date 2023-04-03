@@ -1,5 +1,3 @@
-/** @format */
-
 import funcPlain from './plain.js';
 import funcStylish from './stylish.js';
 import funcJSON from './json.js';
