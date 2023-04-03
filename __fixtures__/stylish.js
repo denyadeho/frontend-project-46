@@ -42,4 +42,4 @@ export default
         }
      fee: 100500
     }
-}`
+}`;
