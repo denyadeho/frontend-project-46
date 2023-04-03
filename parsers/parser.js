@@ -12,6 +12,8 @@ const parser = (filepath) => {
     case '.yaml':
       file = parserYaml(filepath);
       break;
+    default:
+      throw new Error(`Incorrect extension ${path.parse(filepath).ext}`);
   }
   return file;
 };

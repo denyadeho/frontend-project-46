@@ -12,7 +12,7 @@ const funcPlain = (file1, file2, parent = '') => {
     }
     return file;
   };
-  const path = (parent, item) => (parent ? `${parent}.${item}` : item);
+  const path = (parent1, item) => (parent1 ? `${parent1}.${item}` : item);
 
   const result = [];
   const allKeys = _.uniq([...Object.keys(file1), ...Object.keys(file2)].sort());
