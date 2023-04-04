@@ -39,7 +39,7 @@ const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
         return [getTextForPush(item, file1[item], '-', deepLVL, isSetSign), getTextForPush(item, file2[item], '+', deepLVL, isSetSign)];
       }
     }
-  })
+  });
   const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 4 - 4)}}`;
   return text;
 };
