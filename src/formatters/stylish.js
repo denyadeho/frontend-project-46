@@ -5,7 +5,7 @@ const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
   const result = [];
 
   const allKeys = _.uniq([...Object.keys(file1), ...Object.keys(file2)].sort());
-
+  /* eslint-disable-next-line */
   for (const item of allKeys) {
     if (_.isObject(file1[item]) || _.isObject(file2[item])) {
       if (_.isObject(file1[item]) && _.isObject(file2[item])) {
