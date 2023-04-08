@@ -2,9 +2,7 @@ import _ from 'lodash';
 
 const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
   const getTextForPush = (key, value, sign, deepLVL1 = 1, isSetSign1 = true) => `${' '.repeat(deepLVL1 * 4 - 2)}${isSetSign1 ? sign : ' '} ${key}: ${value}`;
-
   const allKeys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
-  /* eslint-disable-next-line */
   const result = allKeys.flatMap((item) => {
     if (_.isObject(file1[item]) || _.isObject(file2[item])) {
       if (_.isObject(file1[item]) && _.isObject(file2[item])) {
@@ -39,6 +37,7 @@ const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
         return [getTextForPush(item, file1[item], '-', deepLVL, isSetSign), getTextForPush(item, file2[item], '+', deepLVL, isSetSign)];
       }
     }
+    return null;
   });
   const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 4 - 4)}}`;
   return text;
