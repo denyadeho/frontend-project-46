@@ -1,7 +1,9 @@
 import path from 'path';
-import parserJSON from './parserJSON.js';
-import parserYaml from './parserYaml.js';
+import fs from 'node:fs';
+import jsYaml from 'js-yaml';
 
+const parserYaml = (filepath) => jsYaml.load(fs.readFileSync(filepath, 'utf8'));
+const parserJSON = (filepath) => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
 const parser = (filepath) => {
   switch (path.parse(filepath).ext) {
     case '.json':
