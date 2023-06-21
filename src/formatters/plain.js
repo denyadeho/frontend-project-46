@@ -39,7 +39,8 @@ const makePlain = (node, parent = '') => {
 const plain = (file1, file2) => {
   const diffTree = generateDiffTree(file1, file2);
   const diffPlain = diffTree.map((item) => makePlain(item));
-  return diffPlain.join('\n').replace(/^\s*[\r\n]/gm, '');
+  console.log(diffPlain);
+  return diffPlain.join('\n').replace(/^\s*[\r\n]/gm, '').trim();
 };
 
 export default plain;
