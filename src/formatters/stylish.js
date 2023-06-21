@@ -1,46 +1,51 @@
 import _ from 'lodash';
+import generateDiffTree from './diffTree.js';
 
-const funcStylish = (file1, file2, deepLVL = 1, isSetSign = true) => {
-  const getTextForPush = (key, value, sign, deepLVL1 = 1, isSetSign1 = true) => `${' '.repeat(deepLVL1 * 4 - 2)}${isSetSign1 ? sign : ' '} ${key}: ${value}`;
-  const allKeys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
-  const result = allKeys.flatMap((item) => {
-    if (_.isObject(file1[item]) || _.isObject(file2[item])) {
-      if (_.isObject(file1[item]) && _.isObject(file2[item])) {
-        const deepResult = funcStylish(file1[item], file2[item], deepLVL + 1);
-        return getTextForPush(item, deepResult, ' ', deepLVL);
-      }
-      if (_.isObject(file1[item]) && !_.isObject(file2[item])) {
-        const deepResult = funcStylish(file1[item], {}, deepLVL + 1, false);
-        if (file2[item] !== undefined) {
-          return [getTextForPush(item, deepResult, '-', deepLVL, isSetSign), getTextForPush(item, file2[item], '+', deepLVL)];
-        }
-        return getTextForPush(item, deepResult, '-', deepLVL, isSetSign);
-      }
-      if (!_.isObject(file1[item]) && _.isObject(file2[item])) {
-        const deepResult = funcStylish({}, file2[item], deepLVL + 1, false);
-        if (file1[item] !== undefined) {
-          return [getTextForPush(item, file1[item], '-', deepLVL), getTextForPush(item, deepResult, '+', deepLVL, isSetSign)];
-        }
-        return getTextForPush(item, deepResult, '+', deepLVL, isSetSign);
-      }
-    } else {
-      if (file1[item] !== undefined && file2[item] === undefined) {
-        return getTextForPush(item, file1[item], '-', deepLVL, isSetSign);
-      }
-      if (file2[item] !== undefined && file1[item] === undefined) {
-        return getTextForPush(item, file2[item], '+', deepLVL, isSetSign);
-      }
-      if (file1[item] === file2[item]) {
-        return getTextForPush(item, file1[item], ' ', deepLVL, isSetSign);
-      }
-      if (file1[item] !== undefined && file2[item] !== undefined && file1[item] !== file2[item]) {
-        return [getTextForPush(item, file1[item], '-', deepLVL, isSetSign), getTextForPush(item, file2[item], '+', deepLVL, isSetSign)];
-      }
-    }
-    return null;
-  });
-  const text = `{\n${result.join('\n')}\n${' '.repeat(deepLVL * 4 - 4)}}`;
-  return text;
+const indentString = (depth) => ' '.repeat((depth * 4) - 2);
+
+const formatValue = (value, depth) => {
+  if (_.isObject(value)) {
+    const indent = indentString(depth);
+    const nestedIndent = indentString(depth + 1);
+    const lines = Object.entries(value)
+      .map(([key, val]) => `${nestedIndent}  ${key}: ${formatValue(val, depth + 1)}`);
+    return `{\n${lines.join('\n')}\n${indent}  }`;
+  }
+  return value;
 };
 
-export default funcStylish;
+const makeStylish = (node, depth) => {
+  const {
+    name, value, oldValue, status,
+  } = node;
+  const indent = indentString(depth);
+
+  if (status === 'deeped') {
+    const nestedChanges = value.map((item) => makeStylish(item, depth + 1));
+    const nestedChangesString = nestedChanges.join('\n');
+    return `${indent}  ${name}: {\n${nestedChangesString}\n${indent}  }`;
+  }
+  if (status === 'added') {
+    return `${indent}+ ${name}: ${formatValue(value, depth)}`;
+  }
+  if (status === 'deleted') {
+    return `${indent}- ${name}: ${formatValue(value, depth)}`;
+  }
+  if (status === 'unchanged') {
+    return `${indent}  ${name}: ${formatValue(value, depth)}`;
+  }
+  if (status === 'updated') {
+    const oldValueString = `${indent}- ${name}: ${formatValue(oldValue, depth)}`;
+    const newValueString = `${indent}+ ${name}: ${formatValue(value, depth)}`;
+    return `${oldValueString}\n${newValueString}`;
+  }
+  return null;
+};
+
+const stylish = (file1, file2) => {
+  const diffTree = generateDiffTree(file1, file2);
+  const diffOutput = diffTree.map((item) => makeStylish(item, 1)).join('\n');
+  return `{\n${diffOutput}\n}`;
+};
+
+export default stylish;

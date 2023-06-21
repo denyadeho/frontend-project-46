@@ -1,6 +1,12 @@
 import _ from 'lodash';
+import generateDiffTree from './diffTree.js';
 
-const funcPlain = (file1, file2, parent = '') => {
+const makePlain = (node, parent = '') => {
+  const {
+    name, value, oldValue, status,
+  } = node;
+
+  const getPath = (key) => (parent ? `${parent}.${key}` : key);
   const checkType = (file) => {
     if (typeof file === 'string') {
       return `'${file}'`;
@@ -10,30 +16,30 @@ const funcPlain = (file1, file2, parent = '') => {
     }
     return file;
   };
-  const path = (parent1, item) => (parent1 ? `${parent1}.${item}` : item);
 
-  const allKeys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
-  /* eslint-disable-next-line */
-  const result = allKeys.map((item) => {
-    if (file1[item] !== undefined || file2[item] !== undefined) {
-      if (_.isObject(file1[item]) && _.isObject(file2[item])) {
-        const recursionAdd = funcPlain(file1[item], file2[item], path(parent, item));
-        return recursionAdd;
-      }
-      if (file1[item] !== undefined && file2[item] === undefined) {
-        return `Property '${path(parent, item)}' was removed`;
-      }
-      if (file2[item] !== undefined && file1[item] === undefined) {
-        return `Property '${path(parent, item)}' was added with value: ${checkType(file2[item])}`;
-      }
+  if (status === 'deeped') {
+    return value.map((item) => makePlain(item, getPath(name))).join('\n');
+  }
+  if (status === 'added') {
+    return `Property '${getPath(name)}' was added with value: ${checkType(value)}`;
+  }
+  if (status === 'deleted') {
+    return `Property '${getPath(name)}' was removed`;
+  }
+  if (status === 'unchanged') {
+    return '';
+  }
+  if (status === 'updated') {
+    return `Property '${getPath(name)}' was updated. From ${checkType(oldValue)} to ${checkType(value)}`;
+  }
 
-      if (file1[item] !== undefined && file2[item] !== undefined && file1[item] !== file2[item]) {
-        return `Property '${path(parent, item)}' was updated. From ${checkType(file1[item])} to ${checkType(file2[item])}`;
-      }
-    }
-  });
-  const filteredArr = result.filter((item) => item !== undefined);
-  const text = `${filteredArr.join('\n')}`;
-  return text;
+  return '';
 };
-export default funcPlain;
+
+const plain = (file1, file2) => {
+  const diffTree = generateDiffTree(file1, file2);
+  const diffPlain = diffTree.map((item) => makePlain(item));
+  return diffPlain.join('\n').replace(/^\s*[\r\n]/gm, '');
+};
+
+export default plain;

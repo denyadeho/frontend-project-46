@@ -1,14 +1,14 @@
-import funcPlain from './plain.js';
-import funcStylish from './stylish.js';
-import funcJSON from './json.js';
+import plain from './plain.js';
+import stylish from './stylish.js';
+import genJson from './json.js';
 
 const format = (file1, file2, form) => {
   if (form === 'plain') {
-    return funcPlain(file1, file2);
+    return plain(file1, file2);
   }
   if (form === 'json') {
-    return JSON.stringify(funcJSON(file1, file2));
+    return genJson(file1, file2);
   }
-  return funcStylish(file1, file2);
+  return stylish(file1, file2);
 };
 export default format;
