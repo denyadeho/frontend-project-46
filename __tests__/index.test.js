@@ -11,18 +11,14 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 /* eslint-env jest */
-test('test1 - JsonStylish', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toEqual(stylish);
-});
-test('test2 - YamlStylish', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))).toEqual(stylish);
-});
-test('test3 - JsonPlain', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(plain);
-});
-test('test4 - YamlPlain', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'plain')).toEqual(plain);
-});
-test('test5 - CheckJson', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'), 'json')).toEqual(json);
+const testCases = [
+  ['JsonStylish', 'file1.json', 'file2.json', undefined, stylish],
+  ['YamlStylish', 'file1.yml', 'file2.yml', undefined, stylish],
+  ['JsonPlain', 'file1.json', 'file2.json', 'plain', plain],
+  ['YamlPlain', 'file1.yml', 'file2.yml', 'plain', plain],
+  ['CheckJson', 'file1.yml', 'file2.json', 'json', json],
+];
+
+test.each(testCases)('%s', (testName, file1, file2, format, expected) => {
+  expect(genDiff(getFixturePath(file1), getFixturePath(file2), format)).toEqual(expected);
 });

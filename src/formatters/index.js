@@ -1,14 +1,15 @@
 import plain from './plain.js';
 import stylish from './stylish.js';
-import genJson from './json.js';
+import generateDiffTree from '../diffTree.js';
 
-const format = (file1, file2, form) => {
+const formatter = (file1, file2, form) => {
+  const diffTree = generateDiffTree(file1, file2);
   if (form === 'plain') {
-    return plain(file1, file2);
+    return plain(diffTree);
   }
   if (form === 'json') {
-    return genJson(file1, file2);
+    return JSON.stringify(diffTree);
   }
-  return stylish(file1, file2);
+  return stylish(diffTree);
 };
-export default format;
+export default formatter;

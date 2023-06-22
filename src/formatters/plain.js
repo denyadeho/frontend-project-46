@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import generateDiffTree from './diffTree.js';
 
 const makePlain = (node, parent = '') => {
   const {
@@ -36,8 +35,7 @@ const makePlain = (node, parent = '') => {
   return '';
 };
 
-const plain = (file1, file2) => {
-  const diffTree = generateDiffTree(file1, file2);
+const plain = (diffTree) => {
   const diffPlain = diffTree.map((item) => makePlain(item));
   return diffPlain.join('\n').replace(/^\s*[\r\n]/gm, '').trim();
 };

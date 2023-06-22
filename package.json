@@ -5,7 +5,7 @@
     "gendiff": "bin/gendiff.js"
   },
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/denyadeho/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/denyadeho/frontend-project-46/actions)",
+  "description": "A package for finding differences in json/yaml format files. The output can be in the form of stylish, plain, json.",
   "main": "src/index.js",
   "scripts": {
     "test": "jest"

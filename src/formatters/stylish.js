@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import generateDiffTree from './diffTree.js';
 
 const indentString = (depth) => ' '.repeat((depth * 4) - 2);
 
@@ -42,8 +41,7 @@ const makeStylish = (node, depth) => {
   return null;
 };
 
-const stylish = (file1, file2) => {
-  const diffTree = generateDiffTree(file1, file2);
+const stylish = (diffTree) => {
   const diffOutput = diffTree.map((item) => makeStylish(item, 1)).join('\n');
   return `{\n${diffOutput}\n}`;
 };
