@@ -33,7 +33,7 @@ const makeStylish = (node, depth) => {
   if (status === 'unchanged') {
     return `${indent}  ${name}: ${formatValue(value, depth)}`;
   }
-  if (status === 'updated') {
+  if (status === 'changed') {
     const oldValueString = `${indent}- ${name}: ${formatValue(oldValue, depth)}`;
     const newValueString = `${indent}+ ${name}: ${formatValue(value, depth)}`;
     return `${oldValueString}\n${newValueString}`;

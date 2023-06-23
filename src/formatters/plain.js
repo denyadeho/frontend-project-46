@@ -28,7 +28,7 @@ const makePlain = (node, parent = '') => {
   if (status === 'unchanged') {
     return '';
   }
-  if (status === 'updated') {
+  if (status === 'changed') {
     return `Property '${getPath(name)}' was updated. From ${checkType(oldValue)} to ${checkType(value)}`;
   }
 

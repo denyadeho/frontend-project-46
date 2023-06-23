@@ -20,7 +20,7 @@ const generateDiffTree = (file1, file2) => {
       name: key,
       oldValue: file1[key],
       value: file2[key],
-      status: 'updated',
+      status: 'changed',
     };
   });
   return objForJSON;
