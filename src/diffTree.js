@@ -10,7 +10,7 @@ const generateDiffTree = (file1, file2) => {
     if (file1[key] === undefined && file2[key] !== undefined) {
       return { name: key, value: file2[key], status: 'added' };
     }
-    if (file1[key] === file2[key]) {
+    if (_.isEqual(file1[key], file2[key])) {
       return { name: key, value: file1[key], status: 'unchanged' };
     }
     if (_.isObject(file1[key]) && _.isObject(file2[key])) {

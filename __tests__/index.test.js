@@ -12,8 +12,8 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 /* eslint-env jest */
 const testCases = [
-  ['JsonStylish', 'file1.json', 'file2.json', undefined, stylish],
-  ['YamlStylish', 'file1.yml', 'file2.yml', undefined, stylish],
+  ['JsonStylish', 'file1.json', 'file2.json', 'stylish', stylish],
+  ['YamlStylish', 'file1.yml', 'file2.yml', 'stylish', stylish],
   ['JsonPlain', 'file1.json', 'file2.json', 'plain', plain],
   ['YamlPlain', 'file1.yml', 'file2.yml', 'plain', plain],
   ['CheckJson', 'file1.yml', 'file2.json', 'json', json],
